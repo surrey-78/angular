@@ -1,0 +1,120 @@
+<div class="finance-container">
+  <header class="finance-header">
+    <div class="header-content">
+      <h1>Financial Sheet</h1>
+      <p class="subtitle">Detailed analysis for Customer <strong>{{ kunnr }}</strong></p>
+    </div>
+    <div class="revenue-card">
+      <div class="revenue-label">Overall Sales Revenue</div>
+      <div class="revenue-value">{{ overallSales | currency:'INR':'symbol':'1.0-0' }}</div>
+    </div>
+  </header>
+
+  <div *ngIf="loading" class="loader-overlay">
+    <div class="spinner"></div>
+    <p>Retrieving SAP Financial Records...</p>
+  </div>
+
+  <div *ngIf="!loading" class="data-stack">
+    
+    <div class="finance-section">
+      <h3 class="section-title">Finance Details</h3>
+      <div class="table-card">
+        <div class="table-wrapper">
+          <table class="sap-portal-table">
+            <thead>
+              <tr>
+                <th>Invoice No</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Currency</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let inv of invoices">
+                <td><strong>{{ inv.Belnr }}</strong></td>
+                <td>{{ inv.Bldat }}</td>
+                <td>{{ inv.Wrbtr | number:'1.2-2' }}</td>
+                <td>{{ inv.Waers }}</td>
+              </tr>
+              <tr *ngIf="invoices.length === 0">
+                <td colspan="4" class="empty-state">No transaction records found.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="finance-section">
+      <h3 class="section-title">Customer Aging Analysis</h3>
+      <div class="table-card">
+        <div class="table-wrapper">
+          <table class="sap-portal-table">
+            <thead>
+              <tr>
+                <th>Invoice No</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Aging Days</th>
+                <th>Bucket</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let age of agingItems">
+                <td><strong>{{ age.Belnr }}</strong></td>
+                <td>{{ age.Bldat }}</td>
+                <td>{{ age.Wrbtr | number:'1.2-2' }}</td>
+                <td>{{ age.Waers }}</td>
+                <td>{{ age.Aging }}</td>
+                <td class="status-cell">
+                  <span [class.critical-bucket]="age.Bucket === '90+'">
+                    {{ age.Bucket }}
+                  </span>
+                </td>
+              </tr>
+              <tr *ngIf="agingItems.length === 0">
+                <td colspan="6" class="empty-state">No aging data available for current period.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="finance-section">
+      <h3 class="section-title">Credit / Debit Memo</h3>
+      <div class="table-card">
+        <div class="table-wrapper">
+          <table class="sap-portal-table">
+            <thead>
+              <tr>
+                <th>Document No</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let memo of memos">
+                <td><strong>{{ memo.Belnr }}</strong></td>
+                <td>{{ memo.Bldat }}</td>
+                <td>{{ memo.Wrbtr | number:'1.2-2' }}</td>
+                <td>{{ memo.Waers }}</td>
+                <td [style.color]="memo.Type === 'Credit' ? '#2e7d32' : '#d32f2f'">
+                  <strong>{{ memo.Type }}</strong>
+                </td>
+              </tr>
+              <tr *ngIf="memos.length === 0">
+                <td colspan="5" class="empty-state">No active credit or debit memos.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

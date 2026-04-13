@@ -1,0 +1,132 @@
+<div class="dashboard-wrapper">
+  <header class="dashboard-header">
+    <div class="welcome-text">
+      <h1>Customer Insights</h1>
+      <p>Customer ID: <strong>{{ kunnr }}</strong></p>
+    </div>
+  </header>
+
+  <div class="stats-grid">
+    <div class="stat-card blue" (click)="navigateTo('inquiry')" [class.active-card]="activeSection === 'inquiry'">
+      <div class="stat-icon">🔍</div>
+      <div class="stat-info">
+        <h3>{{ inquiries.length }}</h3>
+        <p>Inquiries</p>
+      </div>
+    </div>
+
+    <div class="stat-card green" (click)="navigateTo('sales')" [class.active-card]="activeSection === 'sales'">
+      <div class="stat-icon">📦</div>
+      <div class="stat-info">
+        <h3>{{ salesOrders.length }}</h3>
+        <p>Sales Orders</p>
+      </div>
+    </div>
+
+    <div class="stat-card orange" (click)="navigateTo('delivery')" [class.active-card]="activeSection === 'delivery'">
+      <div class="stat-icon">🚚</div>
+      <div class="stat-info">
+        <h3>{{ deliveries.length }}</h3>
+        <p>Deliveries</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-card" *ngIf="!loading">
+    
+    <section class="data-section" *ngIf="activeSection === 'inquiry'">
+      <h3 class="section-title">i. Inquiry Details</h3>
+      <div class="table-responsive">
+        <table class="sap-table">
+          <thead>
+            <tr>
+              <th>Inquiry #</th>
+              <th>Date</th>
+              <th>Material</th>
+              <th>Description</th>
+              <th>Net Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of inquiries">
+              <td><strong>{{ item.Vbeln }}</strong></td>
+              <td class="text-center">{{ item.Erdat }}</td>
+              <td class="text-center">{{ item.Matnr }}</td>
+              <td>{{ item.Arktx }}</td>
+              <td class="text-center">
+                {{ item.Netwr | number:'1.2-2' }} 
+                <span class="currency-label">{{ item.Waerk }}</span>
+              </td>
+            </tr>
+            <tr *ngIf="inquiries.length === 0">
+              <td colspan="5" class="no-data text-center">No inquiries found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="data-section" *ngIf="activeSection === 'sales'">
+      <h3 class="section-title">ii. Sales Order Details</h3>
+      <div class="table-responsive">
+        <table class="sap-table">
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>Date</th>
+              <th>Material</th>
+              <th>Description</th>
+              <th>Net Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of salesOrders">
+              <td><strong>{{ order.Vbeln }}</strong></td>
+              <td class="text-center">{{ order.Erdat }}</td>
+              <td class="text-center">{{ order.Matnr }}</td>
+              <td>{{ order.Arktx }}</td>
+              <td class="text-center">
+                {{ order.Netwr | number:'1.2-2' }}
+                <span class="currency-label">{{ order.Waerk }}</span>
+              </td>
+            </tr>
+            <tr *ngIf="salesOrders.length === 0">
+              <td colspan="5" class="no-data text-center">No sales orders found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="data-section" *ngIf="activeSection === 'delivery'">
+      <h3 class="section-title">iii. Delivery Details</h3>
+      <div class="table-responsive">
+        <table class="sap-table">
+          <thead>
+            <tr>
+              <th>Delivery #</th>
+              <th>Date</th>
+              <th>Material</th>
+              <th>Description</th>
+              <th>Qty</th>
+              <th>Unit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let del of deliveries">
+              <td><strong>{{ del.Vbeln }}</strong></td>
+              <td class="text-center">{{ del.Erdat }}</td>
+              <td class="text-center">{{ del.Matnr }}</td>
+              <td>{{ del.Arktx }}</td>
+              <td class="text-center">{{ del.Lfimg }}</td>
+              <td class="text-center">{{ del.Vrkme }}</td>
+            </tr>
+            <tr *ngIf="deliveries.length === 0">
+              <td colspan="6" class="no-data text-center">No deliveries found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>

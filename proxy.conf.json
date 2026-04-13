@@ -1,0 +1,8 @@
+{
+  "/sap": {
+    "target": "http://172.17.19.24:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

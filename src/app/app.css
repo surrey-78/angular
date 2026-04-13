@@ -1,0 +1,162 @@
+/* Container & Background */
+.portal-navbar {
+  background-color: #ffffff;
+  color: #333;
+  height: 64px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+/* Brand/Logo Section */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-box {
+  background-color: #0070f2; /* SAP Blue */
+  color: white;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.brand-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.nav-links a:hover {
+  background-color: #f0f4f8;
+  color: #0070f2;
+}
+
+.active-link {
+  color: #0070f2 !important;
+  background-color: #eef5fd;
+}
+
+/* Profile Wrapper & Trigger */
+.profile-nav-wrapper {
+  position: relative;
+  margin-left: 10px;
+}
+
+.nav-profile-trigger {
+  cursor: pointer;
+  width: 38px;
+  height: 38px;
+  background-color: #f0f2f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.nav-profile-trigger:hover {
+  background-color: #e2e6ea;
+}
+
+.profile-circle {
+  font-size: 1.2rem;
+}
+
+/* Profile Dropdown Card */
+.profile-dropdown-card {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 260px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  border: 1px solid #eee;
+  padding: 16px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.profile-header h4 {
+  margin: 0 0 12px 0;
+  font-size: 1rem;
+  color: #1a1a1a;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 8px;
+}
+
+.profile-info p {
+  margin: 6px 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.profile-info strong {
+  color: #333;
+}
+
+/* Logout Button */
+.nav-logout-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 8px;
+  background-color: #fff;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.nav-logout-btn:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Main Content Padding (to prevent overlap with fixed nav) */
+.content-area.has-navbar {
+  padding-top: 80px;
+}
+
+/* Simple Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

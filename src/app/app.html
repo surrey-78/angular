@@ -1,0 +1,48 @@
+<nav class="portal-navbar" *ngIf="showNavbar">
+  <div class="nav-container">
+    
+    <div class="brand" routerLink="/dashboard" style="cursor: pointer;">
+      <span class="logo-box">SAP</span>
+      <span class="brand-name">Customer Portal</span>
+    </div>
+
+    <div class="nav-links">
+      <a routerLink="/dashboard" 
+         routerLinkActive="active-link" 
+         [routerLinkActiveOptions]="{exact: true}">
+        <span class="nav-icon">📊</span> Dashboard
+      </a>
+
+      <a routerLink="/finance" 
+         routerLinkActive="active-link">
+        <span class="nav-icon">💰</span> Finance Sheet
+      </a>
+
+      <div class="profile-nav-wrapper">
+        <div class="nav-profile-trigger" (click)="toggleProfile($event)">
+          <span class="profile-circle">👤</span>
+        </div>
+
+        <div class="profile-dropdown-card" *ngIf="isProfileOpen">
+          <div class="profile-header">
+            <h4>Customer Profile</h4>
+          </div>
+          <div class="profile-info">
+            <p><strong>Name:</strong> {{ userProfile?.Name1 || 'N/A' }}</p>
+            <p><strong>City:</strong> {{ userProfile?.Ort01 || 'N/A' }}</p>
+            <p><strong>Region:</strong> {{ userProfile?.Regio || 'N/A' }}</p>
+            <p><strong>Contact:</strong> {{ userProfile?.Telf1 || 'N/A' }}</p>
+          </div>
+          <button (click)="logout()" class="nav-logout-btn">
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<main class="content-area" [class.has-navbar]="showNavbar">
+  <router-outlet></router-outlet>
+</main>
