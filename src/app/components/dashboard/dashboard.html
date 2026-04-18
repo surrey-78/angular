@@ -1,132 +1,197 @@
-<div class="dashboard-wrapper">
-  <header class="dashboard-header">
-    <div class="welcome-text">
-      <h1>Customer Insights</h1>
-      <p>Customer ID: <strong>{{ kunnr }}</strong></p>
+<div class="kt-deep-wrapper">
+  
+  <header class="kt-header">
+    <div class="header-left">
+      <div class="branding">
+        <h1>Customer Insights</h1>
+      </div>
+      <p class="customer-tag">Session Active for ID: <code>{{ kunnr }}</code></p>
+    </div>
+    
+    <div class="header-right">
+      <div class="user-profile">
+      </div>
     </div>
   </header>
 
-  <div class="stats-grid">
-    <div class="stat-card blue" (click)="navigateTo('inquiry')" [class.active-card]="activeSection === 'inquiry'">
-      <div class="stat-icon">🔍</div>
-      <div class="stat-info">
+  <div class="kt-stats-grid quad-grid">
+    <div class="stat-card" 
+         (click)="navigateTo('inquiry')" 
+         [class.active-card]="activeSection === 'inquiry'">
+      <div class="icon-circle gold-border">🔍</div>
+      <div class="stat-meta">
         <h3>{{ inquiries.length }}</h3>
         <p>Inquiries</p>
       </div>
+      <div class="card-arrow">→</div>
     </div>
 
-    <div class="stat-card green" (click)="navigateTo('sales')" [class.active-card]="activeSection === 'sales'">
-      <div class="stat-icon">📦</div>
-      <div class="stat-info">
+    <div class="stat-card" 
+         (click)="navigateTo('sales')" 
+         [class.active-card]="activeSection === 'sales'">
+      <div class="icon-circle green-border">📦</div>
+      <div class="stat-meta">
         <h3>{{ salesOrders.length }}</h3>
         <p>Sales Orders</p>
       </div>
+      <div class="card-arrow">→</div>
     </div>
 
-    <div class="stat-card orange" (click)="navigateTo('delivery')" [class.active-card]="activeSection === 'delivery'">
-      <div class="stat-icon">🚚</div>
-      <div class="stat-info">
+    <div class="stat-card" 
+         (click)="navigateTo('delivery')" 
+         [class.active-card]="activeSection === 'delivery'">
+      <div class="icon-circle maroon-border">🚚</div>
+      <div class="stat-meta">
         <h3>{{ deliveries.length }}</h3>
         <p>Deliveries</p>
       </div>
+      <div class="card-arrow">→</div>
+    </div>
+
+    <div class="stat-card" 
+         (click)="navigateTo('analytics')" 
+         [class.active-card]="activeSection === 'analytics'">
+      <div class="icon-circle blue-border">📊</div>
+      <div class="stat-meta">
+        <h3>Analysis</h3>
+        <p>Data Charts</p>
+      </div>
+      <div class="card-arrow">→</div>
     </div>
   </div>
 
-  <div class="content-card" *ngIf="!loading">
-    
-    <section class="data-section" *ngIf="activeSection === 'inquiry'">
-      <h3 class="section-title">i. Inquiry Details</h3>
-      <div class="table-responsive">
-        <table class="sap-table">
+  <div class="deep-content-card" *ngIf="!loading">
+    <div class="content-header">
+      <h2 class="display-title">
+        <span class="accent-line"></span>
+        {{ activeSection === 'inquiry' ? 'Inquiry Management' : 
+           activeSection === 'sales' ? 'Sales Order Pipeline' : 
+           activeSection === 'delivery' ? 'Delivery Tracking' : 'Business Distribution Analysis' }}
+      </h2>
+    </div>
+
+    <div class="table-container" *ngIf="activeSection !== 'analytics'">
+      <table class="kt-table">
+        
+        <ng-container *ngIf="activeSection === 'inquiry'">
           <thead>
             <tr>
               <th>Inquiry #</th>
-              <th>Date</th>
-              <th>Material</th>
+              <th class="text-center">Date</th>
+              <th class="text-center">Material</th>
               <th>Description</th>
-              <th>Net Value</th>
+              <th class="text-right">Net Value</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of inquiries">
-              <td><strong>{{ item.Vbeln }}</strong></td>
+              <td><span class="doc-badge">{{ item.Vbeln }}</span></td>
               <td class="text-center">{{ item.Erdat }}</td>
-              <td class="text-center">{{ item.Matnr }}</td>
-              <td>{{ item.Arktx }}</td>
-              <td class="text-center">
-                {{ item.Netwr | number:'1.2-2' }} 
-                <span class="currency-label">{{ item.Waerk }}</span>
+              <td class="text-center"><code>{{ item.Matnr }}</code></td>
+              <td class="desc-cell">{{ item.Arktx }}</td>
+              <td class="text-right val-cell">
+                {{ item.Netwr | number:'1.2-2' }} <small>{{ item.Waerk }}</small>
               </td>
             </tr>
             <tr *ngIf="inquiries.length === 0">
-              <td colspan="5" class="no-data text-center">No inquiries found.</td>
+              <td colspan="5" class="no-data">No inquiries found.</td>
             </tr>
           </tbody>
-        </table>
-      </div>
-    </section>
+        </ng-container>
 
-    <section class="data-section" *ngIf="activeSection === 'sales'">
-      <h3 class="section-title">ii. Sales Order Details</h3>
-      <div class="table-responsive">
-        <table class="sap-table">
+        <ng-container *ngIf="activeSection === 'sales'">
           <thead>
             <tr>
               <th>Order #</th>
-              <th>Date</th>
-              <th>Material</th>
+              <th class="text-center">Date</th>
+              <th class="text-center">Material</th>
               <th>Description</th>
-              <th>Net Amount</th>
+              <th class="text-right">Net Amount</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let order of salesOrders">
-              <td><strong>{{ order.Vbeln }}</strong></td>
+              <td><span class="doc-badge green">{{ order.Vbeln }}</span></td>
               <td class="text-center">{{ order.Erdat }}</td>
-              <td class="text-center">{{ order.Matnr }}</td>
-              <td>{{ order.Arktx }}</td>
-              <td class="text-center">
-                {{ order.Netwr | number:'1.2-2' }}
-                <span class="currency-label">{{ order.Waerk }}</span>
+              <td class="text-center"><code>{{ order.Matnr }}</code></td>
+              <td class="desc-cell">{{ order.Arktx }}</td>
+              <td class="text-right val-cell">
+                {{ order.Netwr | number:'1.2-2' }} <small>{{ order.Waerk }}</small>
               </td>
             </tr>
             <tr *ngIf="salesOrders.length === 0">
-              <td colspan="5" class="no-data text-center">No sales orders found.</td>
+              <td colspan="5" class="no-data">No sales orders found.</td>
             </tr>
           </tbody>
-        </table>
-      </div>
-    </section>
+        </ng-container>
 
-    <section class="data-section" *ngIf="activeSection === 'delivery'">
-      <h3 class="section-title">iii. Delivery Details</h3>
-      <div class="table-responsive">
-        <table class="sap-table">
+        <ng-container *ngIf="activeSection === 'delivery'">
           <thead>
             <tr>
               <th>Delivery #</th>
-              <th>Date</th>
-              <th>Material</th>
+              <th class="text-center">Date</th>
+              <th class="text-center">Material</th>
               <th>Description</th>
-              <th>Qty</th>
-              <th>Unit</th>
+              <th class="text-right">Quantity</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let del of deliveries">
-              <td><strong>{{ del.Vbeln }}</strong></td>
+              <td><span class="doc-badge gold">{{ del.Vbeln }}</span></td>
               <td class="text-center">{{ del.Erdat }}</td>
-              <td class="text-center">{{ del.Matnr }}</td>
-              <td>{{ del.Arktx }}</td>
-              <td class="text-center">{{ del.Lfimg }}</td>
-              <td class="text-center">{{ del.Vrkme }}</td>
+              <td class="text-center"><code>{{ del.Matnr }}</code></td>
+              <td class="desc-cell">{{ del.Arktx }}</td>
+              <td class="text-right val-cell">
+                {{ del.Lfimg }} <small>{{ del.Vrkme }}</small>
+              </td>
             </tr>
             <tr *ngIf="deliveries.length === 0">
-              <td colspan="6" class="no-data text-center">No deliveries found.</td>
+              <td colspan="5" class="no-data">No deliveries found.</td>
             </tr>
           </tbody>
-        </table>
+        </ng-container>
+
+      </table>
+    </div>
+
+    <div class="analytics-container" *ngIf="activeSection === 'analytics'">
+      <div class="chart-flex-layout">
+        <div class="chart-box">
+          <canvas id="businessPieChart"></canvas>
+        </div>
+
+        <div class="analysis-stats">
+          <h3 class="analysis-title">Operational Summary</h3>
+          
+          <div class="summary-item">
+            <span class="indicator gold"></span>
+            <div class="summary-text">
+              <p><strong>Inquiry Share:</strong> {{ getPercentage('inquiry') }}%</p>
+              <small>Total potential leads in the pipeline.</small>
+            </div>
+          </div>
+
+          <div class="summary-item">
+            <span class="indicator green"></span>
+            <div class="summary-text">
+              <p><strong>Sales Conversion:</strong> {{ getPercentage('sales') }}%</p>
+              <small>Confirmed orders processed from leads.</small>
+            </div>
+          </div>
+
+          <div class="summary-item">
+            <span class="indicator maroon"></span>
+            <div class="summary-text">
+              <p><strong>Fulfillment Rate:</strong> {{ getPercentage('delivery') }}%</p>
+              <small>Completed shipments and logistics.</small>
+            </div>
+          </div>
+
+          <div class="performance-badge">
+             <p>Data Status: <span class="live-pulse">Live SAP Sync</span></p>
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
   </div>
 </div>

@@ -1,118 +1,138 @@
-<div class="finance-container">
-  <header class="finance-header">
-    <div class="header-content">
-      <h1>Financial Sheet</h1>
-      <p class="subtitle">Detailed analysis for Customer <strong>{{ kunnr }}</strong></p>
-    </div>
-    <div class="revenue-card">
-      <div class="revenue-label">Overall Sales Revenue</div>
-      <div class="revenue-value">{{ overallSales | currency:'INR':'symbol':'1.0-0' }}</div>
+<div class="kt-deep-wrapper">
+  
+  <header class="kt-header">
+    <div class="header-left">
+      <div class="branding">
+        <h1>Financial Sheet</h1>
+      </div>
+      <p class="customer-tag">Detailed analysis for ID: <code>{{ kunnr }}</code></p>
     </div>
   </header>
 
-  <div *ngIf="loading" class="loader-overlay">
-    <div class="spinner"></div>
-    <p>Retrieving SAP Financial Records...</p>
+  <div class="kt-stats-grid quad-grid">
+    <div class="stat-card" (click)="activeTab = 'finance'" [class.active-card]="activeTab === 'finance'">
+      <div class="icon-circle gold-border">💰</div>
+      <div class="stat-meta">
+        <h3>{{ overallSales | number:'1.0-0' }}</h3>
+        <p>Total Revenue (INR)</p>
+      </div>
+    </div>
+
+    <div class="stat-card" (click)="activeTab = 'finance'" [class.active-card]="activeTab === 'finance'">
+      <div class="icon-circle blue-border">📑</div>
+      <div class="stat-meta">
+        <h3>{{ invoices.length }}</h3>
+        <p>Total Invoices</p>
+      </div>
+    </div>
+
+    <div class="stat-card" (click)="activeTab = 'memos'" [class.active-card]="activeTab === 'memos'">
+      <div class="icon-circle maroon-border">💳</div>
+      <div class="stat-meta">
+        <h3>{{ memos.length }}</h3>
+        <p>Credit/Debit Memos</p>
+      </div>
+    </div>
+
+    <div class="stat-card" (click)="activeTab = 'aging'" [class.active-card]="activeTab === 'aging'">
+      <div class="icon-circle green-border">⏳</div>
+      <div class="stat-meta">
+        <h3>{{ agingItems.length }}</h3>
+        <p>Aging Items</p>
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="!loading" class="data-stack">
+  <div class="data-stack" *ngIf="!loading">
     
-    <div class="finance-section">
-      <h3 class="section-title">Finance Details</h3>
-      <div class="table-card">
-        <div class="table-wrapper">
-          <table class="sap-portal-table">
-            <thead>
-              <tr>
-                <th>Invoice No</th>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Currency</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let inv of invoices">
-                <td><strong>{{ inv.Belnr }}</strong></td>
-                <td>{{ inv.Bldat }}</td>
-                <td>{{ inv.Wrbtr | number:'1.2-2' }}</td>
-                <td>{{ inv.Waers }}</td>
-              </tr>
-              <tr *ngIf="invoices.length === 0">
-                <td colspan="4" class="empty-state">No transaction records found.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+    <div class="deep-content-card" *ngIf="activeTab === 'finance'">
+      <div class="card-header-flex">
+        <h3 class="section-title">Finance Details</h3>
+        <span class="helper-text" *ngIf="isDownloading">Generating PDF... ⏳</span>
+      </div>
+      
+      <div class="table-container">
+        <table class="kt-table">
+          <thead>
+            <tr>
+              <th>Invoice No</th>
+              <th class="text-center">Date</th>
+              <th class="text-right">Amount</th>
+              <th class="text-center">Currency</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let inv of invoices">
+              <td><span class="doc-badge">{{ inv.Belnr }}</span></td>
+              <td class="text-center">{{ inv.Bldat }}</td>
+              <td class="text-right val-cell">{{ inv.Wrbtr | number:'1.2-2' }}</td>
+              <td class="text-center"><span class="currency-tag">{{ inv.Waers }}</span></td>
+              <td class="text-center">
+                <button class="action-icon-btn" (click)="downloadInvoice(inv.Belnr)" [disabled]="isDownloading">📥</button>
+              </td>
+            </tr>
+            <tr *ngIf="invoices.length === 0"><td colspan="5" class="no-data">No invoices found.</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <div class="finance-section">
+    <div class="deep-content-card" *ngIf="activeTab === 'aging'">
       <h3 class="section-title">Customer Aging Analysis</h3>
-      <div class="table-card">
-        <div class="table-wrapper">
-          <table class="sap-portal-table">
-            <thead>
-              <tr>
-                <th>Invoice No</th>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Currency</th>
-                <th>Aging Days</th>
-                <th>Bucket</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let age of agingItems">
-                <td><strong>{{ age.Belnr }}</strong></td>
-                <td>{{ age.Bldat }}</td>
-                <td>{{ age.Wrbtr | number:'1.2-2' }}</td>
-                <td>{{ age.Waers }}</td>
-                <td>{{ age.Aging }}</td>
-                <td class="status-cell">
-                  <span [class.critical-bucket]="age.Bucket === '90+'">
-                    {{ age.Bucket }}
-                  </span>
-                </td>
-              </tr>
-              <tr *ngIf="agingItems.length === 0">
-                <td colspan="6" class="empty-state">No aging data available for current period.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="table-container">
+        <table class="kt-table">
+          <thead>
+            <tr>
+              <th>Document No</th>
+              <th class="text-center">Date</th>
+              <th class="text-right">Amount</th>
+              <th class="text-center">Aging Bucket</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let age of agingItems">
+              <td><span class="doc-badge">{{ age.Belnr }}</span></td>
+              <td class="text-center">{{ age.Bldat }}</td>
+              <td class="text-right val-cell">{{ age.Wrbtr | number:'1.2-2' }}</td>
+              <td class="text-center">
+                <span class="bucket-badge" [class.critical]="age.Bucket === '90+'">
+                  {{ age.Bucket || 'Current' }}
+                </span>
+              </td>
+            </tr>
+            <tr *ngIf="agingItems.length === 0"><td colspan="4" class="no-data">No open items found.</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <div class="finance-section">
-      <h3 class="section-title">Credit / Debit Memo</h3>
-      <div class="table-card">
-        <div class="table-wrapper">
-          <table class="sap-portal-table">
-            <thead>
-              <tr>
-                <th>Document No</th>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Currency</th>
-                <th>Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let memo of memos">
-                <td><strong>{{ memo.Belnr }}</strong></td>
-                <td>{{ memo.Bldat }}</td>
-                <td>{{ memo.Wrbtr | number:'1.2-2' }}</td>
-                <td>{{ memo.Waers }}</td>
-                <td [style.color]="memo.Type === 'Credit' ? '#2e7d32' : '#d32f2f'">
-                  <strong>{{ memo.Type }}</strong>
-                </td>
-              </tr>
-              <tr *ngIf="memos.length === 0">
-                <td colspan="5" class="empty-state">No active credit or debit memos.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+    <div class="deep-content-card" *ngIf="activeTab === 'memos'">
+      <h3 class="section-title">Credit / Debit Memos</h3>
+      <div class="table-container">
+        <table class="kt-table">
+          <thead>
+            <tr>
+              <th>Document No</th>
+              <th class="text-center">Date</th>
+              <th class="text-right">Amount</th>
+              <th class="text-center">Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let memo of memos">
+              <td><span class="doc-badge">{{ memo.Belnr }}</span></td>
+              <td class="text-center">{{ memo.Bldat }}</td>
+              <td class="text-right val-cell">{{ memo.Wrbtr | number:'1.2-2' }}</td>
+              <td class="text-center">
+                <span class="memo-status" [ngClass]="memo.Type?.toLowerCase()">
+                  {{ memo.Type }}
+                </span>
+              </td>
+            </tr>
+            <tr *ngIf="memos.length === 0"><td colspan="4" class="no-data">No credit/debit memos found.</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
 

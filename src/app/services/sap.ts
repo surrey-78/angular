@@ -11,6 +11,7 @@ export class SapService {
   private loginUrl = '/sap/bc/srt/scs/sap/zsd_login_007?sap-client=100';
   private dashUrl = '/sap/bc/srt/scs/sap/zsd_dashboard_007?sap-client=100';
   private finUrl = '/sap/bc/srt/scs/sap/zsd_finance_007?sap-client=100';
+  private getPdfUrl = '/sap/bc/srt/scs/sap/zsd_get_data_007?sap-client=100';
 
   private parser = new XMLParser({
     ignoreAttributes: true,
@@ -90,4 +91,17 @@ export class SapService {
       return null;
     }
   }
+
+  getInvoicePdf(vbeln: string): Observable<any> {
+  const formattedVbeln = vbeln.padStart(10, '0');
+  // Tag must match your FM input 'INV_NO' -> 'InvNo'
+  const body = this.createEnvelope('ZfmGetData007', `<InvNo>${formattedVbeln}</InvNo>`);
+  
+  return this.http.post(this.getPdfUrl, body, { 
+    headers: this.getHeaders(), 
+    responseType: 'text' 
+  }).pipe(
+    map(res => this.extractData(res, 'ZfmGetData007Response'))
+  );
+}
 }

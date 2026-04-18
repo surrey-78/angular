@@ -1,201 +1,353 @@
+/* 1. Global Midnight Variables */
 :root {
-  --sap-blue: #0070f2;
-  --sap-active-bg: #eef5fd;
-  --text-main: #1c2d3d;
-  --text-sub: #6a7682;
-  --glass-bg: rgba(255, 255, 255, 0.9);
-  --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
-  --hover-shadow: 0 20px 40px -10px rgba(0, 112, 242, 0.15);
+  --kt-blood-midnight: #1a0000;
+  --kt-blood-primary: #2d0000;
+  --kt-blood-accent: #4a0000;
+  --kt-gold: #FFD700;
+  --white: #ffffff;
+  --text-main: #1a1a1a;
+  --text-muted: #5f676d;
+  --nav-height: 130px; /* Synchronized with your large top nav */
 }
 
-/* 1. Layout & Global Refinement */
-.dashboard-wrapper {
-  padding: 2.5rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+/* 2. Main Wrapper - Full Screen Layout */
+.kt-deep-wrapper {
   min-height: 100vh;
-  font-family: '72', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  /* Clearance: 130px Nav + 50px Breathing room */
+  padding: 180px 5% 5rem !important; 
+  background: radial-gradient(at 0% 0%, #ffffff 0%, #f1f2f6 100%);
+  font-family: 'Inter', -apple-system, sans-serif;
   color: var(--text-main);
+  box-sizing: border-box;
+  display: block;
 }
 
-/* 2. Header Design */
-.dashboard-header {
-  margin-bottom: 3rem;
+/* 3. Page Header Section */
+.kt-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
+  margin-bottom: 4rem;
+  border-bottom: 2px solid rgba(45, 0, 0, 0.08);
+  padding-bottom: 2rem;
+  width: 100%;
 }
 
-.welcome-text h1 {
-  margin: 0;
-  font-size: 2.2rem;
+.welcome-text h1, .branding h1 {
+  font-size: 2.6rem;
   font-weight: 800;
-  letter-spacing: -0.02em;
-  background: linear-gradient(to right, #1c2d3d, #0070f2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--kt-blood-primary);
+  margin: 0;
+  letter-spacing: -1.5px;
 }
 
-.welcome-text p {
-  color: var(--text-sub);
-  margin-top: 0.5rem;
-  font-size: 1.1rem;
+.customer-tag {
+  color: var(--kt-blood-accent);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 8px;
 }
 
-/* 3. Modernized Stat Cards */
-.stats-grid {
+/* 4. Executive Stat Grid */
+.kt-stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  margin-bottom: 5rem;
+}
+
+.kt-stats-grid.quad-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
 }
 
 .stat-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 2rem;
+  background: var(--white);
+  border-radius: 28px;
+  padding: 2.5rem;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  justify-content: space-between;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: var(--card-shadow);
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 15px 35px rgba(45, 0, 0, 0.04);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .stat-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--hover-shadow);
-  border-color: var(--sap-blue);
+  transform: translateY(-10px);
+  box-shadow: 0 25px 50px rgba(45, 0, 0, 0.12);
+  border-color: var(--kt-blood-accent);
 }
 
+/* Stat Meta Text */
+.stat-meta h3 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--kt-blood-primary);
+}
+
+/* Chart Layout */
+.chart-flex {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  padding: 2rem 0;
+}
+
+.chart-wrapper {
+  flex: 1;
+  max-width: 450px;
+}
+
+.analysis-info {
+  flex: 1;
+}
+
+.info-title {
+  color: var(--kt-blood-primary);
+  margin-bottom: 2rem;
+  font-size: 1.4rem;
+}
+
+.insight-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot.inquiry { background: var(--kt-gold); }
+.dot.sales { background: #27ae60; }
+.dot.delivery { background: var(--kt-blood-primary); }
+
+.performance-note {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-top: 2px solid #eee;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.health-good { color: #27ae60; }
+
+/* Responsive Grid for 4 Cards */
+.kt-stats-grid.quad-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Update Grid for 4 Items */
+.kt-stats-grid.quad-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+/* New Analytics Layout */
+.chart-flex-box {
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+  padding: 2rem 0;
+}
+
+.chart-main {
+  flex: 1;
+  max-width: 450px;
+}
+
+.analysis-details {
+  flex: 1;
+}
+
+.details-title {
+  color: var(--kt-blood-primary);
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+.summary-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.indicator { width: 12px; height: 12px; border-radius: 50%; margin-top: 5px; }
+.indicator.inquiry { background: #FFD700; }
+.indicator.sales { background: #27ae60; }
+.indicator.delivery { background: #2d0000; }
+
+.summary-text p { margin: 0; font-size: 1.1rem; color: #333; }
+.summary-text small { color: #666; font-size: 0.85rem; }
+
+.live-pulse {
+  color: #27ae60;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+/* Border color for 4th card icon circle */
+.blue-border {
+  border: 2px solid #2980b9;
+  color: #2980b9;
+}
+
+@media (max-width: 1200px) {
+  .chart-flex-box { flex-direction: column; text-align: center; }
+  .kt-stats-grid.quad-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 1200px) {
+  .chart-flex { flex-direction: column; text-align: center; }
+  .kt-stats-grid.quad-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.stat-meta p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* 5. Active State (Gold on Maroon) */
 .active-card {
-  background: white;
-  border: 2px solid var(--sap-blue);
-  box-shadow: var(--hover-shadow);
+  background: var(--kt-blood-primary) !important;
+  border-color: var(--kt-gold) !important;
+  box-shadow: 0 20px 45px rgba(45, 0, 0, 0.3) !important;
 }
 
-.stat-icon {
-  font-size: 2rem;
-  width: 64px;
-  height: 64px;
+.active-card .stat-meta h3, 
+.active-card .stat-meta p {
+  color: var(--kt-gold) !important;
+}
+
+.icon-circle {
+  width: 65px;
+  height: 65px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 16px;
-  transition: transform 0.3s ease;
+  font-size: 1.8rem;
+  background: #f8f9fa;
+  flex-shrink: 0;
 }
 
-.stat-card:hover .stat-icon {
-  transform: scale(1.1) rotate(-5deg);
-}
+.gold-border { border: 2.5px solid var(--kt-gold); color: var(--kt-blood-primary); }
+.maroon-border { border: 2.5px solid var(--kt-blood-primary); }
+.green-border { border: 2.5px solid #27ae60; }
+.blue-border { border: 2.5px solid #2980b9; background: rgba(41, 128, 185, 0.05); }
 
-/* 4. Elegant Data Content Card */
-.content-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  border-radius: 24px;
-  padding: 2.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  box-shadow: var(--card-shadow);
+/* 6. Content Cards */
+.deep-content-card {
+  background: var(--white);
+  border-radius: 35px;
+  padding: 4rem;
+  border: 1px solid rgba(45, 0, 0, 0.04);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .section-title {
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  color: var(--kt-blood-primary);
+  font-size: 1.8rem;
+  font-weight: 800;
+  border-left: 8px solid var(--kt-gold);
+  padding-left: 25px;
+  margin-bottom: 3rem;
 }
 
-.section-title::before {
-  content: '';
-  width: 6px;
-  height: 24px;
-  background: var(--sap-blue);
-  border-radius: 10px;
-  display: inline-block;
-}
-
-/* 5. Clean, Perfectly Aligned Tables */
-.sap-table {
+/* 7. SAP Professional Table (Clean Flow) */
+.kt-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 8px; /* Creates the "floating row" effect */
+  border-spacing: 0 12px; /* Professional row breathing room */
 }
 
-.sap-table th {
-  color: var(--text-sub);
-  font-weight: 600;
-  font-size: 0.8rem;
+.kt-table th {
+  padding: 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 1rem 1.5rem;
+  letter-spacing: 2px;
+  border-bottom: 3px solid #f4f4f4;
   text-align: left;
+  font-weight: 800;
 }
 
-.sap-table tbody tr {
-  background: rgba(255, 255, 255, 0.5);
-  transition: all 0.2s ease;
+.kt-table td {
+  padding: 1.8rem 1.5rem;
+  background: transparent;
+  border-bottom: 1px solid #f9f9f9;
+  font-size: 1.05rem;
+  color: var(--text-main) !important;
 }
 
-.sap-table tbody tr:hover {
-  background: white;
-  transform: scale(1.005);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+.kt-table tbody tr:hover td {
+  background: rgba(45, 0, 0, 0.02);
 }
 
-.sap-table td {
-  padding: 1.2rem 1.5rem;
-  font-size: 0.95rem;
-  border-top: 1px solid #f0f2f5;
-  border-bottom: 1px solid #f0f2f5;
+/* 8. Professional SAP Elements */
+.doc-badge {
+  background: #fff5f5;
+  color: var(--kt-blood-primary) !important;
+  border: 1px solid rgba(45, 0, 0, 0.1);
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
 }
 
-/* Rounded corners for the "floating" rows */
-.sap-table td:first-child { border-left: 1px solid #f0f2f5; border-radius: 12px 0 0 12px; }
-.sap-table td:last-child { border-right: 1px solid #f0f2f5; border-radius: 0 12px 12px 0; }
-
-/* 6. Precision Alignment Logic */
-/* Center alignment for specific columns */
-.sap-table th:nth-child(2), .sap-table td:nth-child(2), /* Date */
-.sap-table th:nth-child(3), .sap-table td:nth-child(3), /* Material */
-.sap-table th:nth-child(5), .sap-table td:nth-child(5), /* Qty */
-.sap-table th:nth-child(6), .sap-table td:nth-child(6)  /* Unit */ {
-  text-align: center;
+.val-cell {
+  font-weight: 800;
+  color: var(--kt-blood-primary) !important;
+  font-size: 1.15rem;
 }
 
-/* Description takes priority space */
-.sap-table th:nth-child(4), .sap-table td:nth-child(4) {
-  width: 35%;
+.memo-status {
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* 7. Utility & Badges */
-.currency-label {
-  font-size: 0.7rem;
-  background: #eef2f7;
-  padding: 2px 6px;
-  border-radius: 4px;
-  color: var(--sap-blue);
-  margin-left: 6px;
+.memo-status.credit { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+.memo-status.debit { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
+
+.bucket-badge.critical {
+  background: #ffeded;
+  color: #d32f2f;
+  padding: 6px 15px;
+  border-radius: 50px;
+  font-weight: 800;
+  border: 1px solid #ffcdd2;
 }
 
-.no-data {
-  text-align: center;
-  padding: 4rem !important;
-  color: var(--text-sub);
-  font-style: italic;
+/* Utility Spacing */
+.mt-3 { margin-top: 4rem; }
+
+/* 9. Responsive Adjustments */
+@media (max-width: 1400px) {
+  .kt-stats-grid.quad-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Responsive */
-@media (max-width: 992px) {
-  .dashboard-wrapper { padding: 1.5rem; }
-  .welcome-text h1 { font-size: 1.8rem; }
+@media (max-width: 1100px) {
+  .kt-stats-grid { grid-template-columns: 1fr; }
+  .kt-deep-wrapper { padding-top: 150px !important; }
+  .kt-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+  .welcome-text h1 { font-size: 2rem; }
 }

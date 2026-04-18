@@ -1,127 +1,250 @@
-.finance-container { padding: 20px; }
+:root {
+  /* High-Contrast Executive Palette */
+  --kt-blood-midnight: #1a0000;
+  --kt-blood-primary: #2d0000;
+  --kt-blood-accent: #4a0000;
+  --kt-gold: #FFD700;
+  --white: #ffffff;
+  --text-main: #1a1a1a;
+  --text-muted: #5f676d;
+  --nav-height: 90px; /* Aligns with your fixed top nav */
+}
 
-.finance-header {
+/* 1. Main Wrapper with Header Clearance */
+.kt-deep-wrapper {
+  min-height: 100vh;
+  /* Push content down to clear the fixed navbar */
+  padding: calc(var(--nav-height) + 2rem) 5% 4rem;
+  background: radial-gradient(at 0% 0%, #ffffff 0%, #f1f2f6 100%);
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: var(--text-main);
+  box-sizing: border-box;
+}
+
+/* 2. Header Justification */
+.kt-header {
+  margin-bottom: 3.5rem;
+  border-bottom: 2px solid rgba(45, 0, 0, 0.05);
+  padding-bottom: 1.5rem;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+  align-items: flex-end;
 }
 
-.sales-card {
-  background: #2c3e50;
-  color: white;
-  padding: 15px 25px;
-  border-radius: 8px;
-  text-align: right;
+.branding h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--kt-blood-primary);
+  letter-spacing: -1px;
+  margin: 0;
 }
 
-.sales-card .value {
-  display: block;
-  font-size: 24px;
-  font-weight: bold;
+/* 3. Stat Grid (Quad-Grid Support) */
+.kt-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 4rem;
 }
 
-.fin-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 30px;
+.kt-stats-grid.quad-grid {
+  grid-template-columns: repeat(4, 1fr);
 }
 
-.fin-table th { background: #f8f9fa; padding: 12px; border-bottom: 2px solid #dee2e6; text-align: left; }
-.fin-table td { padding: 12px; border-bottom: 1px solid #eee; }
-
-.aging-pill {
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-weight: bold;
-  font-size: 12px;
-}
-
-.aging-good { background: #d4edda; color: #155724; }
-.aging-warning { background: #fff3cd; color: #856404; }
-.aging-critical { background: #f8d7da; color: #721c24; }
-
-.text-success { color: #28a745; font-weight: bold; }
-
-.cards-stack {
+.stat-card {
+  background: var(--white);
+  border-radius: 24px;
+  padding: 2rem;
   display: flex;
-  flex-direction: column;
-  gap: 30px;
+  align-items: center;
+  gap: 1.5rem;
+  border: 1px solid #eee;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(45, 0, 0, 0.1);
+  border-color: var(--kt-blood-accent);
+}
+
+.icon-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  background: #f8f9fa;
+  flex-shrink: 0;
+}
+
+/* Icon Borders */
+.gold-border { border: 2.5px solid var(--kt-gold); color: var(--kt-blood-primary); }
+.maroon-border { border: 2.5px solid var(--kt-blood-primary); }
+.green-border { border: 2.5px solid #27ae60; }
+.blue-border { border: 2.5px solid #2980b9; background: rgba(41, 128, 185, 0.05); }
+
+.stat-meta h3 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--kt-blood-primary);
+}
+
+.stat-meta p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* 4. Content Cards & Sections */
+.deep-content-card {
+  background: var(--white);
+  border-radius: 32px;
+  padding: 3rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(45, 0, 0, 0.03);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .section-title {
-  font-size: 1.1rem;
-  margin-bottom: 10px;
-  color: #333;
+  color: var(--kt-blood-primary);
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 2.5rem;
+  border-left: 6px solid var(--kt-gold);
+  padding-left: 20px;
 }
 
-.content-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-}
-
-.sap-table thead tr {
-  background-color: #1a73e8; /* Blue header from your images */
-  color: white;
-}
-
-.sap-table th {
-  padding: 15px;
-  text-align: left;
-}
-
-.sap-table td {
-  padding: 12px 15px;
-  border-bottom: 1px solid #eee;
-}
-
-.text-danger {
-  color: #d32f2f; /* Red for the '90+' bucket */
-}
-/* finance.css */
-.data-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding-top: 1rem;
-}
-
-.table-card {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  overflow: hidden;
-  margin-top: 10px;
-}
-
-.sap-portal-table {
+/* 5. SAP Data Table Flow */
+.kt-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 8px; /* Adds breathing room between rows */
 }
 
-.sap-portal-table thead tr {
-  background-color: #1a73e8; /* Blue background for headers */
-  color: white;
-}
-
-.sap-portal-table th {
-  padding: 12px 15px;
-  text-align: left;
-  font-weight: 600;
+.kt-table th {
+  padding: 1.2rem 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
   text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border-bottom: 2px solid #f4f4f4;
+  font-weight: 700;
+}
+
+.kt-table td {
+  padding: 1.5rem;
+  background: transparent;
+  border-bottom: 1px solid #f9f9f9;
+  font-size: 1rem;
+  color: var(--text-main) !important;
+}
+
+.kt-table tbody tr:hover td {
+  background: rgba(45, 0, 0, 0.02);
+}
+.kt-deep-wrapper {
+  min-height: 100vh;
+  /* CRITICAL: Pushes the body down so it doesn't hide behind the navbar */
+  padding-top: 120px !important; 
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 4rem;
+  
+  background: var(--bg-gradient);
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
+  box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+
+.card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.helper-text {
   font-size: 0.85rem;
+  color: #d97706;
+  font-weight: 500;
 }
 
-.sap-portal-table td {
-  padding: 12px 15px;
-  border-bottom: 1px solid #eee;
+.action-icon-btn {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.empty-state {
-  text-align: center;
-  padding: 20px;
-  color: #666;
-  font-style: italic;
+.action-icon-btn:hover:not(:disabled) {
+  background: #007bff;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.action-icon-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 6. Professional SAP Status Tags */
+.doc-badge {
+  background: #fff5f5;
+  color: var(--kt-blood-primary) !important;
+  border: 1px solid rgba(45, 0, 0, 0.08);
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+.val-cell {
+  font-weight: 800;
+  color: var(--kt-blood-primary) !important;
+  font-size: 1.1rem;
+}
+
+.memo-status {
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.memo-status.credit { background: #e8f5e9; color: #2e7d32; }
+.memo-status.debit { background: #ffebee; color: #c62828; }
+
+.bucket-badge.critical {
+  background: #ffeded;
+  color: #d32f2f;
+  padding: 6px 15px;
+  border-radius: 50px;
+  font-weight: 800;
+  border: 1px solid #ffcdd2;
+}
+
+/* Utility Spacing */
+.mt-3 { margin-top: 4rem; }
+
+/* 7. Responsive Breakpoints */
+@media (max-width: 1400px) {
+  .kt-stats-grid.quad-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .kt-stats-grid { grid-template-columns: 1fr; }
+  .kt-deep-wrapper { padding-top: calc(var(--nav-height) + 1rem); }
+  .branding h1 { font-size: 1.8rem; }
 }

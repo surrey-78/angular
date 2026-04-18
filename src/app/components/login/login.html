@@ -1,30 +1,66 @@
-<div class="login-wrapper">
+<div class="login-container">
+  <div class="shape"></div>
+  <div class="shape"></div>
+
   <div class="login-card">
     <div class="login-header">
-      <img src="kaartech.png" alt="Logo" class="logo"> 
-      
+      <div class="logo-wrapper">
+        <div class="logo-box">
+          <img src="/kaartech.png" alt="KaarTech Logo" class="logo">
+        </div>
+      </div>
       <h1>Customer Portal</h1>
-      <p>Sign in to manage your account</p>
+      <p class="brand-tag">Enterprise SAP Suite</p>
     </div>
 
-    <form (ngSubmit)="onLogin()">
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="login-form">
+      
       <div class="form-group">
-        <label>Customer ID</label>
-        <input type="text" name="kunnr" [(ngModel)]="kunnr" placeholder="Enter KUNNR" required>
+        <label for="kunnr">Customer ID</label>
+        <div class="input-wrapper">
+          <input 
+            type="text" 
+            id="kunnr"
+            name="kunnr" 
+            [(ngModel)]="kunnr" 
+            placeholder="Enter KUNNR (e.g. 4)" 
+            required
+            #kunnrInput="ngModel">
+        </div>
       </div>
 
       <div class="form-group">
-        <label>Password</label>
-        <input type="password" name="password" [(ngModel)]="password" placeholder="••••••••" required>
+        <label for="password">Access Code</label>
+        <div class="input-wrapper">
+          <input 
+            type="password" 
+            id="password"
+            name="password" 
+            [(ngModel)]="password" 
+            placeholder="••••••••" 
+            required
+            #passInput="ngModel">
+        </div>
       </div>
 
       <div *ngIf="errorMessage" class="error-box">
-        {{ errorMessage }}
+        <span class="error-icon">⚠️</span> {{ errorMessage }}
       </div>
 
-      <button type="submit" [disabled]="loading">
-        {{ loading ? 'Authenticating...' : 'Login' }}
+      <button type="submit" class="btn-login" [disabled]="loading || !loginForm.valid">
+        <div class="btn-content">
+          <span *ngIf="!loading">Secure Login</span>
+          <ng-container *ngIf="loading">
+            <span class="loader"></span>
+            <span>Authenticating...</span>
+          </ng-container>
+        </div>
       </button>
     </form>
+    
+    <div class="login-footer">
+      <p>&copy; 2026 Kaar Technologies India Pvt. Ltd.</p>
+      <p class="auth-note">Authorized Personnel Only</p>
+    </div>
   </div>
 </div>

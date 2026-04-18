@@ -1,45 +1,55 @@
 <nav class="portal-navbar" *ngIf="showNavbar">
   <div class="nav-container">
     
-    <div class="brand" routerLink="/dashboard" style="cursor: pointer;">
-      <span class="logo-box">SAP</span>
-      <span class="brand-name">Customer Portal</span>
+    <div class="brand" routerLink="/dashboard">
+      <div class="logo-container">
+        <img src="/kaartech.png" alt="KaarTech" class="main-logo">
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">Customer Portal</span>
+        <span class="brand-tag">Enterprise SAP Suite</span>
+      </div>
     </div>
 
     <div class="nav-links">
       <a routerLink="/dashboard" 
          routerLinkActive="active-link" 
-         [routerLinkActiveOptions]="{exact: true}">
+         [routerLinkActiveOptions]="{exact: true}"
+         class="nav-item">
         <span class="nav-icon">📊</span> Dashboard
       </a>
 
       <a routerLink="/finance" 
-         routerLinkActive="active-link">
+         routerLinkActive="active-link"
+         class="nav-item">
         <span class="nav-icon">💰</span> Finance Sheet
       </a>
-
-      <div class="profile-nav-wrapper">
-        <div class="nav-profile-trigger" (click)="toggleProfile($event)">
-          <span class="profile-circle">👤</span>
-        </div>
-
-        <div class="profile-dropdown-card" *ngIf="isProfileOpen">
-          <div class="profile-header">
-            <h4>Customer Profile</h4>
-          </div>
-          <div class="profile-info">
-            <p><strong>Name:</strong> {{ userProfile?.Name1 || 'N/A' }}</p>
-            <p><strong>City:</strong> {{ userProfile?.Ort01 || 'N/A' }}</p>
-            <p><strong>Region:</strong> {{ userProfile?.Regio || 'N/A' }}</p>
-            <p><strong>Contact:</strong> {{ userProfile?.Telf1 || 'N/A' }}</p>
-          </div>
-          <button (click)="logout()" class="nav-logout-btn">
-            Logout
-          </button>
-        </div>
-      </div>
     </div>
 
+    <div class="profile-nav-wrapper">
+      <div class="nav-profile-trigger" (click)="toggleProfile($event)" [class.trigger-active]="isProfileOpen">
+        <div class="profile-circle">👤</div>
+        <div class="user-meta">
+          <p class="u-name">{{ userProfile?.Name1 || 'Customer' }}</p>
+        </div>
+      </div>
+
+      <div class="profile-dropdown-card" *ngIf="isProfileOpen">
+  <div class="dropdown-header">
+    <h4>Account Profile</h4>
+  </div>
+  
+  <div class="profile-info">
+    <p><strong>ID</strong> <span>{{ userProfile?.Kunnr || 'N/A' }}</span></p>
+    <p><strong>City</strong> <span>{{ userProfile?.Ort01 || 'N/A' }}</span></p>
+    <p><strong>Contact</strong> <span>{{ userProfile?.Telf1 || 'N/A' }}</span></p>
+  </div>
+
+  <button (click)="logout()" class="nav-logout-btn">
+    Sign Out
+  </button>
+</div>
+    </div>
   </div>
 </nav>
 
